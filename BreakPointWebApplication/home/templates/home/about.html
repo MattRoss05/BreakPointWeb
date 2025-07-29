@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{%load static%}
+{% block content %}
+<div class = "center-screen">
+    <h1>What is BreakPoint?</h1>
+
+    <div class="blurb1">
+        <img src="{% static 'images/luke.JPG' %}" alt="Breakpoint">
+        <div class="blurb-text">
+            <h3>🎱 Competitive Play</h3>
+            <p>The VCU Pool Club brings together students who love the game—whether you're aiming for precision or just learning to line up your shots. As members of the Collegiate Cues Organization, we play against other universities and take pride in representing VCU, all while keeping things fun and welcoming.</p>
+        </div>
+    </div>
+
+    <div class="blurb2">
+        <div class="blurb-text">
+            <h3>🏆 Step Up to the Table</h3>
+            <p>Looking to sharpen your skills and play competitively? We’ve got you. From casual games at the Ram's Lounge to traveling for tournaments, the VCU Pool Club gives you a chance to grow your game and be part of a team that values both focus and friendship.</p>
+        </div>
+        <img src="{% static 'images/cal.JPG' %}" alt="Breakpoint">
+    </div>
+
+    <div class="blurb3">
+        <img src="{% static 'images/fasa.JPG' %}" alt="Breakpoint">
+        <div class="blurb-text">
+            <h3>🎯 Where Passion Meets Community</h3>
+            <p>Our club is all about improving together, competing with confidence, and enjoying every shot along the way. Come for the challenge, stay for the community, and help us bring talent to the collegiate circuit.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

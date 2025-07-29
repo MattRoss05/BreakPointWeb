@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome to BreakPoint{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="images">
+                <a href="{%url 'welcome'%}" class="logo">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" height="40">
+                </a>
+                <img src="{% static 'images/Breakpoint.webp' %}" alt="Breakpoint" height="40">
+            </div>
+            <ul class="nav-links">
+                <li><a href="{% url 'welcome' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="#">Rankings</a></li>
+                <li><a href="#">Match</a></li>
+                <li><a href="#">Join</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Logout</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
