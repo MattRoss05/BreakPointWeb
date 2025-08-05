@@ -149,3 +149,71 @@ body {
         text-align: center;
     }
 }
+
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  
+  .login-container {
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Adds spacing between children */
+    
+  }
+  
+  /* Space between form elements */
+  .login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  a.register-link {
+    color: white;
+    text-decoration: none;
+    padding: 4px 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  a.register-link:hover,
+  a.register-link:active {
+    background-color: #FFD700;
+    color: black;
+    border-radius: 4px;
+  }
+  
+  .button-container {
+    margin-top: 10px;
+    
+  }
+  
+  .button {
+    padding: 10px 15px;
+    background-color: white;
+    font-family: monospace, sans-serif;
+    font-weight: bold;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+  }
+  
+  .button:hover,
+  .button:active {
+    background-color: #FFD700;
+    color: black;
+  }
+
+  .no-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
