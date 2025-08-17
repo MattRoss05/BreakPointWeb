@@ -5,6 +5,7 @@ class Player(models.Model):
     first = models.CharField(max_length=50)
     last = models.CharField(max_length=50)
     rank  = models.IntegerField()
+    matches = models.IntegerField(default = 0)
     def __str__(self):
         return self.first + " " + self.last + self.user.email
 
