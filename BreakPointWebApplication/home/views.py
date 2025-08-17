@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Player
+from .forms import MatchForm
 # Create your views here.
 
 def welcome_page(request):
@@ -17,3 +18,15 @@ def display_rank(request):
 
 def about_page(request):
    return render(request, 'home/about.html')
+
+
+def match_page(request):
+   if request.method == "POST":
+      form = MatchForm(request.POST, user = request.user)
+      if form.is_valid():
+         form.save()
+         return redirect('welcome')
+   else:
+      form = MatchForm(user = request.user)
+   return render(request, 'home/match.html', {'form': form})
+

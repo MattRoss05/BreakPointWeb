@@ -7,7 +7,7 @@ class Player(models.Model):
     rank  = models.IntegerField()
     matches = models.IntegerField(default = 0)
     def __str__(self):
-        return self.first + " " + self.last + self.user.email
+        return self.first + " " + self.last
 
 
 class Match(models.Model):
