@@ -2,9 +2,16 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.conf import settings
+from home.models import Player
 
 class CustomUserCreationForm(UserCreationForm):
+    SKILL_CHOICES = [
+         ("Beginner","Beginner"),
+         ("Intermediate","Intermediate"),
+         ("Advanced","Advanced"),
+    ]
     email = forms.EmailField(required = True)
+    skill_level = forms.ChoiceField(required = True, choices= SKILL_CHOICES)
     keyword = forms.CharField(max_length=100, help_text= "Enter the club keyword.")
     class Meta:
         model = User
@@ -15,6 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
             "last_name",
             "password1",
             "password2",
+            "skill_level",
             "keyword",
         ]
     def clean_email(self):
@@ -33,3 +41,16 @@ class CustomUserCreationForm(UserCreationForm):
          if keyword != settings.CLUB_JOIN_KEYWORD:
               raise forms.ValidationError("Invalid club keyword.")
          return keyword
+
+    def save(self, commit = True):
+        user = super().save(commit= commit)
+        skill = self.cleaned_data.get('skill_level')
+        starting_rank = {
+        "Beginner": 350,
+        "Intermediate": 550,
+        "Advanced": 750,
+        }[skill]
+        Player.objects.create(user = user, first = user.first_name, last = user.last_name, rank = starting_rank)
+        return user
+         
+    
