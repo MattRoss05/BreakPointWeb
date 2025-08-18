@@ -7,5 +7,6 @@ urlpatterns = [
     path('about/', views.about_page, name = 'about'),
     path('rankings/', views.display_rank, name = 'rankings'),
     path('match/', views.match_page, name = 'match'),
-    path('matchconfirm/', views.display_message, name = 'message')
+    path('matchconfirm/', views.display_message, name = 'message'),
+    path('forbidden/', views.not_authenticated, name = 'forbidden'),
 ]
