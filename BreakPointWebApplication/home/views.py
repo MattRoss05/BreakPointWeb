@@ -22,6 +22,7 @@ def display_rank(request):
          win_ratio = round((player.wins/player.matches),2)
       context = {
       'player_list' : player_list,
+      'player_rating' : player.rank,
       'win_count' : player.wins,
       'loss_count' : (player.matches-player.wins),
       'win_ratio' : win_ratio,
