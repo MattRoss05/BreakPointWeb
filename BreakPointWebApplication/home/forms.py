@@ -15,7 +15,11 @@ class MatchForm(forms.ModelForm):
     opponent = forms.ModelChoiceField(required = True, queryset=OPPONENT_CHOICES)
     match_type = forms.ChoiceField(required = True, choices=MATCH_TYPE_CHOICES)
     win = forms.ChoiceField(required = True, choices= WIN_CHOICES)
-    opponent_password = forms.CharField(max_length=100, help_text= "Have your opponent enter their password.")
+    opponent_password = forms.CharField(
+        widget=forms.PasswordInput(),
+        max_length=100,
+        help_text="Have your opponent enter their password."
+    )
     class Meta:
 
         model = Match
@@ -24,16 +28,16 @@ class MatchForm(forms.ModelForm):
             "opponent",
             "match_type",
             "win",
-            "opponent_password",
+            #"opponent_password",
 
         ]
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
-
-        player = Player.objects.get(user=self.user)
-        self.fields["opponent"].queryset = Player.objects.exclude(pk=player.pk)
+        if self.user:
+            player = Player.objects.get(user=self.user)
+            self.fields["opponent"].queryset = Player.objects.exclude(pk=player.pk)
     
     def clean_opponent_password(self):
         opponent = self.cleaned_data.get('opponent')
