@@ -47,8 +47,9 @@ def match_page(request):
       form = MatchForm(request.POST, user = request.user)
       if form.is_valid():
          form.save()
-         return redirect('welcome')
+         return redirect('message')
    else:
       form = MatchForm(user = request.user)
    return render(request, 'home/match.html', {'form': form})
-
+def display_message(request):
+   return render(request, 'home/message.html')
