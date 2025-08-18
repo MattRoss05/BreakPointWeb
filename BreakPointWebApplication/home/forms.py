@@ -58,12 +58,45 @@ class MatchForm(forms.ModelForm):
 
         if commit:
             match.save()
-
-            match.player1.matches  = match.player1.matches + 1
-            match.player2.matches  = match.player2.matches + 1
+            #get expected win probabilities for both players
+            expected_1 = exp_win1(match.player1, match.player2)
+            expected_2 = 1 - expected_1
+            #get proper k factors for both players
+            kfact1 = get_kfactor(match.player1, match)
+            kfact2 = get_kfactor(match.player2, match)
+            #distribute points
+            if match.winner == match.player1: 
+                match.player1.rank = match.player1.rank + kfact1 * (1 - expected_1)
+                match.player2.rank = match.player2.rank + kfact2 * (0 - expected_2)
+            else:
+                match.player2.rank = match.player2.rank + kfact2 * (1 - expected_2)
+                match.player1.rank = match.player1.rank + kfact1 * (0 - expected_1)
+            match.player1.matches  += 1
+            match.player2.matches  += 1
             match.player1.save()
             match.player2.save()
         
         return match
 
-
+def kfactor_mult(match):
+    if match.match_type == "Race to 2":
+        return 1
+    elif match.match_type == "Race to 3":
+        return 1.25
+    else:
+        return 1.5
+def get_kfactor(player, match): 
+    if player.matches <= 2:
+        return 48 * kfactor_mult(match)
+    elif player.matches <= 4:
+        return 40 * kfactor_mult(match)
+    elif player.matches <=7:
+        return 32 * kfactor_mult(match)
+    elif player.matches <=14:
+        return 24 * kfactor_mult(match)
+    else:
+        return 16 * kfactor_mult(match)
+def exp_win1(player1,player2):
+    denom = 1 + 10**((player2.rank - player1.rank)/400)
+    exp = 1/denom
+    return exp
