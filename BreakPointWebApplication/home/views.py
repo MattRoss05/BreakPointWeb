@@ -16,11 +16,15 @@ def display_rank(request):
    if request.user.is_authenticated:
       player_list = Player.objects.all().order_by('-rank')
       player = get_object_or_404(Player, user = request.user)
+      if player.matches == 0:
+         win_ratio = 0
+      else:
+         win_ratio = round((player.wins/player.matches),2)
       context = {
       'player_list' : player_list,
       'win_count' : player.wins,
       'loss_count' : (player.matches-player.wins),
-      'win_ratio' : round((player.wins/player.matches),2),
+      'win_ratio' : win_ratio,
 
       
       }
