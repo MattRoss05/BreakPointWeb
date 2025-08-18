@@ -6,6 +6,7 @@ class Player(models.Model):
     last = models.CharField(max_length=50)
     rank  = models.IntegerField()
     matches = models.IntegerField(default = 0)
+    wins = models.IntegerField(default = 0)
     def __str__(self):
         return self.first + " " + self.last
 

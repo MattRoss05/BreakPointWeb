@@ -52,15 +52,17 @@ class MatchForm(forms.ModelForm):
 
         if self.cleaned_data.get('win') == 'Yes':
             match.winner = match.player1
+            match.player1.wins += 1
 
         else:
             match.winner = match.player2
+            match.player2.wins += 1
 
         if commit:
             match.save()
 
-            match.player1.matches  = match.player1.matches + 1
-            match.player2.matches  = match.player2.matches + 1
+            match.player1.matches  += 1
+            match.player2.matches  +=  1
             match.player1.save()
             match.player2.save()
         
