@@ -115,3 +115,18 @@ class LeaveForm(forms.Form):
     password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(), help_text='Confirm Password')
 
     def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pw1 = cleaned_data.get('password1')
+        pw2 = cleaned_data.get('password2')
+
+        if pw1 != pw2:
+            raise forms.ValidationError('Passwords do not match.')
+        if not authenticate(username = self.user.username, password = pw1):
+            raise forms.ValidationError('Incorrect password.')
+        
+        return cleaned_data
+
