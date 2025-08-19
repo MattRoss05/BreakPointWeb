@@ -1,20 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Player, Match
-from .forms import MatchForm
+from .forms import MatchForm, LeaveForm
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.models import User
 # Create your views here.
 
 def welcome_page(request):
-   player_list = Player.objects.all().order_by('-rank')
-   context = {
-      'player_list' : player_list
-   }
-   return render(request, 'home/home.html', context)
+   return render(request, 'home/home.html')
 
 def display_rank(request):
    if request.user.is_authenticated:
-      player_list = Player.objects.filter(matches__gte = 5).order_by('-rank')
+      player_list = Player.objects.filter(matches__gte = 5, user__is_active = True).order_by('-rank')
       player = get_object_or_404(Player, user = request.user)
       if player.matches == 0:
          win_ratio = 0
@@ -31,7 +28,7 @@ def display_rank(request):
       }
       return render(request, 'home/rankings.html', context)
    else:
-      player_list = Player.objects.filter(matches__gte = 5).order_by('-rank')
+      player_list = Player.objects.filter(matches__gte = 5, user__is_active = True).order_by('-rank')
       context = {
          'player_list' : player_list,
       }
@@ -65,6 +62,21 @@ def display_message(request):
    else:
       del request.session['can_access_display']
       return render(request, 'home/message.html')
+   
+def leave_ranks(request):
+   if request.user.is_authenticated:
+      if request.method == "POST":
+         form = LeaveForm(request.user, request.POST)
+         if form.is_valid():
+            request.user.is_active = False
+            request.user.save()
+            return redirect('welcome')
+      else:
+         form = LeaveForm(request.user)
+      return render(request, 'home/leave.html', {'form': form} )
+   else:
+      request.session['can_access_forbidden'] = True
+      return redirect('forbidden')
    
 
 def not_authenticated(request):

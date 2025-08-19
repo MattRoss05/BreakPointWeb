@@ -1,6 +1,9 @@
+
 from django import forms
 from .models import Match, Player
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate
+
 class MatchForm(forms.ModelForm):
     OPPONENT_CHOICES = Player.objects.all()
     MATCH_TYPE_CHOICES = [
@@ -107,3 +110,8 @@ def exp_win1(player1,player2):
     denom = 1 + 10**((player2.rank - player1.rank)/400)
     exp = 1/denom
     return exp
+class LeaveForm(forms.Form):
+    password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(), help_text='Enter your password')
+    password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(), help_text='Confirm Password')
+
+    def __init__(self, user, *args, **kwargs):
