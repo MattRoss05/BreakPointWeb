@@ -19,9 +19,13 @@ from django.urls import path, include
 
 
 urlpatterns = [
+    #allows for admin site to be used
     path('admin/', admin.site.urls),
+    # include home app urls
     path('', include('home.urls')),
+    #include built in login and logout urls
     path('members/', include('django.contrib.auth.urls')),
+    #include members app urls
     path('members/', include('members.urls'))
 
 ]

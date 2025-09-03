@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.conf import settings
 from home.models import Player
-
+#Custom form for creating Users, allows users to self evaluate their skill and requires a keyword be typed to join.
 class CustomUserCreationForm(UserCreationForm):
     SKILL_CHOICES = [
          ("Beginner","Beginner"),
